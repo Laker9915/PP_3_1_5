@@ -11,45 +11,50 @@ public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private int id;
+    @Column(name = "role_id")
+    private Integer roleId;
 
-    @Column(name = "role", unique = true)
-    private String role;
+    @Column(name = "role_name", unique = true)
+    private String roleName;
 
     public Role() {
     }
 
-    public int getId() {
-        return id;
+    public Integer getRoleId() {
+        return roleId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setRoleId(Integer idRole) {
+        this.roleId = idRole;
     }
 
-    public String getRole() {
-        return role;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     @Override
     public String getAuthority() {
-        return role;
+        return getRoleName();
+    }
+
+    @Override
+    public String toString() {
+        return roleName;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Role role1)) return false;
-        return id == role1.id && Objects.equals(role, role1.role);
+        if (!(o instanceof Role role)) return false;
+        return roleId == role.roleId && Objects.equals(roleName, role.roleName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, role);
+        return Objects.hash(roleId, roleName);
     }
 }

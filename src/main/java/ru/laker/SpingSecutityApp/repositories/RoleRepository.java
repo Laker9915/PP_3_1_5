@@ -6,4 +6,5 @@ import ru.laker.SpingSecutityApp.models.Role;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Integer> {
+//    Role findOneByRoleName(String role);
 }

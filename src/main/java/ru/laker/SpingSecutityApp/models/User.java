@@ -2,8 +2,10 @@ package ru.laker.SpingSecutityApp.models;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -20,42 +22,51 @@ public class User implements UserDetails {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "login", unique = true)
-    @NotEmpty(message = "Login should not be empty!")
-    @Size(min = 2, max = 30, message = "Login should be between 2 and 30 characters!")
-    private String login;
-
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "name")
+    @Column(name = "first_name")
     @NotEmpty(message = "Name should not be empty!")
     @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters!")
-    private String name;
+    private String firstName;
 
-    @Column(name = "surname")
+    @Column(name = "last_name")
     @NotEmpty(message = "Surname should not be empty!")
     @Size(max = 30, message = "Surname should be less than 30 characters!")
-    private String surname;
+    private String lastName;
 
     @Column(name = "age")
     @Min(value = 0, message = "Age should be greater than 0!")
     private Integer age;
 
-    @ManyToMany
+    @Column(name = "email", unique = true)
+    @NotEmpty(message = "Email should not be empty!")
+    @Email(message = "Email should be valid!")
+    private String email;
+
+    @Column(name = "password")
+    @NotEmpty(message = "Password should not be empty!")
+    @Size(min = 4, message = "Password should be greater than 4 characters!")
+    private String password;
+
+//    @Column(name = "login", unique = true)
+////    @NotEmpty(message = "Login should not be empty!")
+////    @Size(min = 2, max = 30, message = "Login should be between 2 and 30 characters!")
+//    private String login;
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
+//    @NotEmpty(message = "Role should be select!")
     private List<Role> roles;
 
 
     public User() {
     }
 
-    public User(String login, String name, String surname, Integer age, List<Role> roles) {
-        this.login = login;
-        this.name = name;
-        this.surname = surname;
+    public User(String firstName, String lastName, Integer age, String email, String password, List<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.age = age;
+        this.email = email;
+        this.password = password;
         this.roles = roles;
     }
 
@@ -67,32 +78,24 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
+    public String getEmail() {
+        return email;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setFirstName(String name) {
+        this.firstName = name;
     }
 
-    public String getName() {
-        return name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastName(String surname) {
+        this.lastName = surname;
     }
 
     public Integer getAge() {
@@ -101,6 +104,14 @@ public class User implements UserDetails {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public List<Role> getRoles() {
@@ -113,7 +124,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return getRoles();
     }
 
     @Override
@@ -123,7 +134,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        return email;
     }
 
     @Override
@@ -150,11 +161,11 @@ public class User implements UserDetails {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User user)) return false;
-        return Objects.equals(id, user.id) && Objects.equals(login, user.login) && Objects.equals(password, user.password) && Objects.equals(name, user.name) && Objects.equals(surname, user.surname) && Objects.equals(age, user.age) && Objects.equals(roles, user.roles);
+        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(age, user.age) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, name, surname, age, roles);
+        return Objects.hash(id, firstName, lastName, age, email, password, roles);
     }
 }

@@ -3,7 +3,6 @@ package ru.laker.SpingSecutityApp.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.laker.SpingSecutityApp.services.UserService;
 
@@ -21,7 +20,7 @@ public class UserController {
 
     @GetMapping
     public String showProfile(Model model, Principal principal) {
-        model.addAttribute("user", userService.findByLogin(principal.getName()));
+        model.addAttribute("user", userService.findByEmail(principal.getName()));
         return "/user/showProfile";
     }
 

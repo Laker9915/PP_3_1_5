@@ -1,4 +1,29 @@
 package ru.laker.SpingSecutityApp.services;
 
-public class RoleServiceImp {
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.laker.SpingSecutityApp.models.Role;
+import ru.laker.SpingSecutityApp.repositories.RoleRepository;
+
+import java.util.List;
+
+@Service
+@Transactional(readOnly = true)
+public class RoleServiceImp implements RoleService{
+
+    private final RoleRepository roleRepository;
+
+    public RoleServiceImp(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
+    }
+
+//    @Override
+//    public Role findOneByRoleName(String role) {
+//        return roleRepository.findOneByRoleName(role);
+//    }
+
+    @Override
+    public List<Role> findAll() {
+        return roleRepository.findAll();
+    }
 }

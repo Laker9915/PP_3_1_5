@@ -2,12 +2,14 @@ package ru.laker.SpingSecutityApp.services;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.laker.SpingSecutityApp.models.Role;
 import ru.laker.SpingSecutityApp.models.User;
-import ru.laker.SpingSecutityApp.repositories.RoleRepository;
 import ru.laker.SpingSecutityApp.repositories.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,11 +19,11 @@ public class UserServiceImp implements UserService {
 
     private final UserRepository userRepository;
 
-    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImp(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserServiceImp(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -36,20 +38,27 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public User findByLogin(String login) {
-        return userRepository.findByLogin(login);
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     @Transactional
     @Override
     public void save(User user) {
+////        List<Role> singleRole = new ArrayList<>();
+////        singleRole.add(role);
+//        user.setRoles(singleRole);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
     @Transactional
     @Override
-    public void update(long id, User updatedUser) {
+    public void update(long id, User updatedUser, Role role) {
+        List<Role> singleRole = new ArrayList<>();
+        singleRole.add(role);
         updatedUser.setId(id);
+        updatedUser.setRoles(singleRole);
         userRepository.save(updatedUser);
     }
 
@@ -59,13 +68,13 @@ public class UserServiceImp implements UserService {
         userRepository.deleteById(id);
     }
 
+
     @Override
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        User user = findByLogin(login);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = findByEmail(email);
         if (user == null) {
-            throw new UsernameNotFoundException(String.format("User %s not found", login));
+            throw new UsernameNotFoundException(String.format("User %s not found", email));
         }
-        return new org.springframework.security.core.userdetails.User(user.getLogin(),
-                user.getPassword(), user.getAuthorities());
+        return user;
     }
 }

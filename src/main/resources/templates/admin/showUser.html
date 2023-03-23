@@ -6,8 +6,8 @@
 </head>
 <body>
 
-<p th:utext="${'Surname: ' + user.getSurname()}">Surname</p>
-<p th:utext="${'Name: ' + user.getName()}">Name</p>
+<p th:utext="${'Surname: ' + user.getLastName()}">Surname</p>
+<p th:utext="${'Name: ' + user.getFirstName()}">Name</p>
 <p th:utext="${'Age: ' + user.getAge()}">Age</p>
 <p th:utext="${'Id: ' + user.getId()}">Id</p>
 
@@ -24,5 +24,10 @@
 <hr/>
 
 <a th:href="@{/admin}"><| Back</a>
+
+<br>
+<hr>
+
+<a th:href="@{/logout}">Logout</a>
 </body>
 </html>
