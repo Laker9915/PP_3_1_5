@@ -24,22 +24,22 @@
         <tbody>
         <tr th:each="user : ${users}">
             <td>
-                <a th:utext="${user.getId()}">ID</a>
+                <p th:utext="${user.getId()}">ID</p>
             </td>
             <td>
-                <a th:utext="${user.getFirstName()}">First Name</a>
+                <p th:utext="${user.getFirstName()}">First Name</p>
             </td>
             <td>
-                <a th:utext="${user.getLastName()}">Last Name</a>
+                <p th:utext="${user.getLastName()}">Last Name</p>
             </td>
             <td>
-                <a th:utext="${user.getAge()}">Age</a>
+                <p th:utext="${user.getAge()}">Age</p>
             </td>
             <td>
-                <a>Email</a>
+                <p th:utext="${user.getEmail()}">Email</p>
             </td>
             <td>
-                <a th:utext="${user.getRoles()}">Roles</a>
+                <p th:utext="${user.getRoles()}">Roles</p>
             </td>
             <td>
                 <button type="button" class="btn btn-primary">Edit</button>

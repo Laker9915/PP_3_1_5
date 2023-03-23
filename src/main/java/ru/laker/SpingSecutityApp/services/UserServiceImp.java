@@ -5,11 +5,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.laker.SpingSecutityApp.models.Role;
 import ru.laker.SpingSecutityApp.models.User;
 import ru.laker.SpingSecutityApp.repositories.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,20 +43,14 @@ public class UserServiceImp implements UserService {
     @Transactional
     @Override
     public void save(User user) {
-////        List<Role> singleRole = new ArrayList<>();
-////        singleRole.add(role);
-//        user.setRoles(singleRole);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
     @Transactional
     @Override
-    public void update(long id, User updatedUser, Role role) {
-        List<Role> singleRole = new ArrayList<>();
-        singleRole.add(role);
-        updatedUser.setId(id);
-        updatedUser.setRoles(singleRole);
+    public void update(User updatedUser) {
+        updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         userRepository.save(updatedUser);
     }
 

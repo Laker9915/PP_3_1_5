@@ -2,20 +2,53 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>User</title>
+  <title>Profile</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 </head>
 <body>
 
-<p th:utext="${'Surname: ' + user.getLastName()}">Surname</p>
-<p th:utext="${'Name: ' + user.getFirstName()}">Name</p>
-<p th:utext="${'Age: ' + user.getAge()}">Age</p>
-<p th:utext="${'Id: ' + user.getId()}">Id</p>
-
-<a th:href="@{/}"><| Back</a>
+<div class="container">
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Age</th>
+      <th>Email</th>
+      <th>Role</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>
+        <p th:utext="${user.getId()}">ID</p>
+      </td>
+      <td>
+        <p th:utext="${user.getFirstName()}">First Name</p>
+      </td>
+      <td>
+        <p th:utext="${user.getLastName()}">Last Name</p>
+      </td>
+      <td>
+        <p th:utext="${user.getAge()}">Age</p>
+      </td>
+      <td>
+        <p th:utext="${user.getEmail()}">Email</p>
+      </td>
+      <td>
+        <p th:utext="${user.getRoles()}">Roles</p>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
 
 <br>
 <hr>
 
 <a th:href="@{/logout}">Logout</a>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 </body>
 </html>

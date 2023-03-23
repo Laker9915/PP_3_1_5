@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.laker.SpingSecutityApp.models.User;
 import ru.laker.SpingSecutityApp.services.RoleService;
 import ru.laker.SpingSecutityApp.services.UserService;
+import ru.laker.SpingSecutityApp.util.UserValidator;
 //import ru.laker.SpingSecutityApp.util.UserValidator;
 
 import javax.validation.Valid;
@@ -16,12 +17,12 @@ import javax.validation.Valid;
 public class AdminController {
 
     private final UserService userService;
-//    private final UserValidator userValidator;
+    private final UserValidator userValidator;
     private final RoleService roleService;
 
-    public AdminController(UserService userService, RoleService roleService) {
+    public AdminController(UserService userService, UserValidator userValidator, RoleService roleService) {
         this.userService = userService;
-//        this.userValidator = userValidator;
+        this.userValidator = userValidator;
         this.roleService = roleService;
     }
 
@@ -47,7 +48,7 @@ public class AdminController {
     @PostMapping
     public String saveUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
                            Model model) {
-//        userValidator.validate(user, bindingResult);
+        userValidator.validate(user, bindingResult);
         model.addAttribute("roles", roleService.findAll());
         if (bindingResult.hasErrors())
             return "admin/new";
@@ -64,14 +65,13 @@ public class AdminController {
     }
 
     @PatchMapping("/{id}")
-    public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-                             @PathVariable("id") long id, @RequestParam("role") String role, Model model) {
+    public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
         model.addAttribute("roles", roleService.findAll());
-//        userValidator.validate(user, bindingResult);
+        userValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors())
             return "admin/edit";
 
-//        userService.update(id, user, roleService.findOneByRoleName(role));
+        userService.update(user);
         return "redirect:/admin";
     }
 

@@ -1,7 +1,6 @@
 package ru.laker.SpingSecutityApp.services;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
-import ru.laker.SpingSecutityApp.models.Role;
 import ru.laker.SpingSecutityApp.models.User;
 
 import java.util.List;
@@ -15,7 +14,7 @@ public interface UserService extends UserDetailsService {
 
     void save(User user);
 
-    void update(long id, User updatedUser, Role role);
+    void update(User updatedUser);
 
     void delete(long id);
 }
