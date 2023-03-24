@@ -9,7 +9,7 @@ import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
-public class RoleServiceImp implements RoleService{
+public class RoleServiceImp implements RoleService {
 
     private final RoleRepository roleRepository;
 
@@ -17,13 +17,19 @@ public class RoleServiceImp implements RoleService{
         this.roleRepository = roleRepository;
     }
 
-//    @Override
-//    public Role findOneByRoleName(String role) {
-//        return roleRepository.findOneByRoleName(role);
-//    }
-
     @Override
     public List<Role> findAll() {
         return roleRepository.findAll();
+    }
+
+    @Override
+    public List<Role> findRoleByRoleName(String roleName) {
+        return roleRepository.findRoleByRoleName(roleName);
+    }
+
+    @Override
+    @Transactional
+    public void save(Role role) {
+        roleRepository.save(role);
     }
 }

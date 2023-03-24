@@ -2,7 +2,6 @@ package ru.laker.SpingSecutityApp.models;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -10,8 +9,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -46,22 +45,17 @@ public class User implements UserDetails {
     @Size(min = 4, message = "Password should be greater than 4 characters!")
     private String password;
 
-//    @Column(name = "login", unique = true)
-////    @NotEmpty(message = "Login should not be empty!")
-////    @Size(min = 2, max = 30, message = "Login should be between 2 and 30 characters!")
-//    private String login;
-
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
-    inverseJoinColumns = @JoinColumn(name = "role_id"))
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     @NotEmpty(message = "Role should be select!")
-    private List<Role> roles;
+    private Set<Role> roles;
 
 
     public User() {
     }
 
-    public User(String firstName, String lastName, Integer age, String email, String password, List<Role> roles) {
+    public User(String firstName, String lastName, Integer age, String email, String password, Set<Role> roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
@@ -114,11 +108,11 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 
