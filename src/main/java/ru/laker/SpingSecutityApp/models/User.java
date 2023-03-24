@@ -54,7 +54,7 @@ public class User implements UserDetails {
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
     inverseJoinColumns = @JoinColumn(name = "role_id"))
-//    @NotEmpty(message = "Role should be select!")
+    @NotEmpty(message = "Role should be select!")
     private List<Role> roles;
 
 

@@ -2,9 +2,9 @@ package ru.laker.SpingSecutityApp.services;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.laker.SpingSecutityApp.configs.PasswordEncoder;
 import ru.laker.SpingSecutityApp.models.User;
 import ru.laker.SpingSecutityApp.repositories.UserRepository;
 

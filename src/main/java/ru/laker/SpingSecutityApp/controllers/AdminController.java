@@ -8,7 +8,6 @@ import ru.laker.SpingSecutityApp.models.User;
 import ru.laker.SpingSecutityApp.services.RoleService;
 import ru.laker.SpingSecutityApp.services.UserService;
 import ru.laker.SpingSecutityApp.util.UserValidator;
-//import ru.laker.SpingSecutityApp.util.UserValidator;
 
 import javax.validation.Valid;
 
