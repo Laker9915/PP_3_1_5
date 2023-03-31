@@ -50,7 +50,7 @@ public class UserServiceImp implements UserService {
     @Transactional
     @Override
     public void update(User updatedUser) {
-        if(!findOne(updatedUser.getId()).getPassword().equals(updatedUser.getPassword())) {
+        if (!findOne(updatedUser.getId()).getPassword().equals(updatedUser.getPassword())) {
             updatedUser.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
         }
         userRepository.save(updatedUser);

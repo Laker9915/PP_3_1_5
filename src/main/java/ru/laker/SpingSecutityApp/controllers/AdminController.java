@@ -2,26 +2,20 @@ package ru.laker.SpingSecutityApp.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.laker.SpingSecutityApp.models.User;
 import ru.laker.SpingSecutityApp.services.RoleService;
 import ru.laker.SpingSecutityApp.services.UserService;
-import ru.laker.SpingSecutityApp.util.UserValidator;
-
-import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 
     private final UserService userService;
-    private final UserValidator userValidator;
     private final RoleService roleService;
 
-    public AdminController(UserService userService, UserValidator userValidator, RoleService roleService) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
-        this.userValidator = userValidator;
         this.roleService = roleService;
     }
 
@@ -33,36 +27,10 @@ public class AdminController {
         return "admin/showAllUsers";
     }
 
-    @GetMapping("/{id}")
-    public String showUser(@PathVariable("id") long id, Model model) {
-        // Конкретный человек через сервис -> дао -> бд
-        model.addAttribute("user", userService.findOne(id));
-        return "admin/showUser";
-    }
-
-    @GetMapping("/new")
-    public String getFormToNewUser(@ModelAttribute("user") User user, Model model) {
-        model.addAttribute("roles", roleService.findAll());
-        return "admin/new";
-    }
-
     @PostMapping
-    public String saveUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
-                           Model model) {
-        userValidator.validate(user, bindingResult);
-        model.addAttribute("roles", roleService.findAll());
-        if (bindingResult.hasErrors())
-            System.err.println(user);
-
+    public String saveUser(@ModelAttribute("user") User user) {
         userService.save(user);
         return "redirect:/admin";
-    }
-
-    @GetMapping("/{id}/edit")
-    public String getFormToUpdateUser(@PathVariable("id") long id, Model model) {
-        model.addAttribute("user", userService.findOne(id));
-        model.addAttribute("roles", roleService.findAll());
-        return "admin/edit";
     }
 
     @PatchMapping("/{id}")
