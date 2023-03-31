@@ -28,6 +28,8 @@ public class AdminController {
     @GetMapping
     public String showAllUsers(Model model) {
         model.addAttribute("users", userService.findAll());
+        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("addUser", new User());
         return "admin/showAllUsers";
     }
 
@@ -50,7 +52,7 @@ public class AdminController {
         userValidator.validate(user, bindingResult);
         model.addAttribute("roles", roleService.findAll());
         if (bindingResult.hasErrors())
-            return "admin/new";
+            System.err.println(user);
 
         userService.save(user);
         return "redirect:/admin";
@@ -64,12 +66,7 @@ public class AdminController {
     }
 
     @PatchMapping("/{id}")
-    public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
-        model.addAttribute("roles", roleService.findAll());
-        userValidator.validate(user, bindingResult);
-        if (bindingResult.hasErrors())
-            return "admin/edit";
-
+    public String updateUser(@ModelAttribute("user") User user) {
         userService.update(user);
         return "redirect:/admin";
     }
