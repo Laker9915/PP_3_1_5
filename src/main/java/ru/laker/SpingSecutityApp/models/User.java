@@ -1,5 +1,7 @@
 package ru.laker.SpingSecutityApp.models;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -48,6 +50,7 @@ public class User implements UserDetails {
     @ManyToMany
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @Fetch(FetchMode.JOIN)
     @NotEmpty(message = "Role should be select!")
     private Set<Role> roles;
 
