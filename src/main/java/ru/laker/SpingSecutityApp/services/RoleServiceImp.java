@@ -23,11 +23,6 @@ public class RoleServiceImp implements RoleService {
     }
 
     @Override
-    public List<Role> findRoleByRoleName(String roleName) {
-        return roleRepository.findRoleByRoleName(roleName);
-    }
-
-    @Override
     @Transactional
     public void save(Role role) {
         roleRepository.save(role);

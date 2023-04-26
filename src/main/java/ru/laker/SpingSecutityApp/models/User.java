@@ -1,109 +1,100 @@
 package ru.laker.SpingSecutityApp.models;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
+    private long id;
 
-    @Column(name = "first_name")
-    @NotEmpty(message = "Name should not be empty!")
-    @Size(min = 2, max = 30, message = "Name should be between 2 and 30 characters!")
-    private String firstName;
+    @NotEmpty
+    private String name;
 
-    @Column(name = "last_name")
-    @NotEmpty(message = "Surname should not be empty!")
-    @Size(max = 30, message = "Surname should be less than 30 characters!")
-    private String lastName;
+    @NotEmpty
+    private String surname;
 
-    @Column(name = "age")
-    @Min(value = 0, message = "Age should be greater than 0!")
-    private Integer age;
+    @Min(value = 0)
+    private int age;
 
-    @Column(name = "email", unique = true)
-    @NotEmpty(message = "Email should not be empty!")
-    @Email(message = "Email should be valid!")
-    private String email;
+    @NotEmpty
+    @Column(unique = true)
+    private String username;
 
-    @Column(name = "password")
-    @NotEmpty(message = "Password should not be empty!")
-    @Size(min = 4, message = "Password should be greater than 4 characters!")
+    @NotEmpty
     private String password;
 
-    @ManyToMany
-    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    @NotEmpty(message = "Role should be select!")
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "userid"),
+            inverseJoinColumns = @JoinColumn(name = "roleid"))
     private Set<Role> roles;
 
-
     public User() {
+
     }
 
-    public User(String firstName, String lastName, Integer age, String email, String password, Set<Role> roles) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public User(String name, String surname, int age, String username, String password) {
+        this.name = name;
+        this.surname = surname;
         this.age = age;
-        this.email = email;
+        this.username = username;
         this.password = password;
-        this.roles = roles;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
+    public String getName() {
+        return name;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setFirstName(String name) {
-        this.firstName = name;
+    public String getSurname() {
+        return surname;
     }
 
-    public String getLastName() {
-        return lastName;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
-    public void setLastName(String surname) {
-        this.lastName = surname;
-    }
-
-    public Integer getAge() {
+    public int getAge() {
         return age;
     }
 
-    public void setAge(Integer age) {
+    public void setAge(int age) {
         this.age = age;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
@@ -118,19 +109,11 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
+    public String rolesToString() {
+        String result = roles.stream()
+                .map(Role::getName)
+                .collect(Collectors.joining(", "));
+        return result.replace("ROLE_", "");
     }
 
     @Override
@@ -154,14 +137,26 @@ public class User implements UserDetails {
     }
 
     @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        for (Role role : getRoles()) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(role.getAuthority()));
+        }
+        return grantedAuthorities;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof User user)) return false;
-        return Objects.equals(id, user.id) && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(age, user.age) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id && age == user.age && Objects.equals(name, user.name)
+                && Objects.equals(surname, user.surname) && Objects.equals(username, user.username);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, age, email, password, roles);
+        return Objects.hash(id, name, surname, age, username);
     }
+
 }

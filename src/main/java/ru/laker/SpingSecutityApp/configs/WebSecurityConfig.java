@@ -2,49 +2,42 @@ package ru.laker.SpingSecutityApp.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import ru.laker.SpingSecutityApp.services.UserService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
     private final SuccessUserHandler successUserHandler;
 
-    private final UserService userService;
-
-    private final PasswordEncoder passwordEncoder;
-
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserService userService, PasswordEncoder passwordEncoder) {
+    public WebSecurityConfig(SuccessUserHandler successUserHandler) {
         this.successUserHandler = successUserHandler;
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
+        http.csrf().disable().authorizeRequests()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasRole("USER")
-                .antMatchers("/", "/index").permitAll()
+                .antMatchers("/user/**")
+                .hasRole("USER")   //на страницу юзера можно впускать админа, только если у него есть роль юзер.
+                .antMatchers("/login").permitAll()
+                .antMatchers("/api").permitAll()
+                .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().successHandler(successUserHandler)
-                .permitAll()
+                .formLogin().loginPage("/login").loginProcessingUrl("/process_login")
+                .successHandler(successUserHandler)
+                .failureUrl("/login?error")
                 .and()
-                .logout()
-                .permitAll();
+                .logout().logoutUrl("/logout").logoutSuccessUrl("/");
     }
 
     @Bean
-    public DaoAuthenticationProvider daoAuthenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setPasswordEncoder(passwordEncoder.getPasswordEncoder());
-        authenticationProvider.setUserDetailsService(userService);
-        return authenticationProvider;
+    public PasswordEncoder getPasswordEncoder() {
+        return new BCryptPasswordEncoder();
     }
+
 }

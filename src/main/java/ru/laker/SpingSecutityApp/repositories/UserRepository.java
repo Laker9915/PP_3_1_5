@@ -7,6 +7,6 @@ import ru.laker.SpingSecutityApp.models.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Query(value = "SELECT u FROM User u LEFT JOIN FETCH u.roles WHERE u.email = ?1")
+    @Query(value = "SELECT u FROM User u LEFT JOIN FETCH u.roles WHERE u.username = ?1")
     User findByEmail(String email);
 }

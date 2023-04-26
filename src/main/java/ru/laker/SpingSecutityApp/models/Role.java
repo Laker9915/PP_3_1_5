@@ -11,57 +11,61 @@ public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "role_id")
-    private Integer roleId;
+    private long id;
 
-    @Column(name = "role_name", unique = true)
-    private String roleName;
+    private String name;
+
+    public Role(String name) {
+        this.name = name;
+    }
 
     public Role() {
     }
 
-    public Role(String roleName) {
-        this.roleName = roleName;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer idRole) {
-        this.roleId = idRole;
-    }
-
-    public String getRoleName() {
-        return roleName;
-    }
-
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
 
     @Override
     public String getAuthority() {
-        return getRoleName();
+        return name;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
     public String toString() {
-        if (roleName.startsWith("ROLE_")) {
-            return roleName.substring(5);
-        }
-        return roleName;
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Role role)) return false;
-        return roleId == role.roleId && Objects.equals(roleName, role.roleName);
+        if (o == null || getClass() != o.getClass()) return false;
+        Role roles = (Role) o;
+        return id == roles.id && name.equals(roles.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(roleId, roleName);
+        return Objects.hash(id, name);
+    }
+
+    public String getNameWithoutPrefix() {
+        return this.name.replace("ROLE_", "");
     }
 }
