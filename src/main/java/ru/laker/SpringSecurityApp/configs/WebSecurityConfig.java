@@ -1,4 +1,4 @@
-package ru.laker.SpingSecutityApp.configs;
+package ru.laker.SpringSecurityApp.configs;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

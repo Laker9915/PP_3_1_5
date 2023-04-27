@@ -1,9 +1,9 @@
-package ru.laker.SpingSecutityApp.services;
+package ru.laker.SpringSecurityApp.services;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.laker.SpingSecutityApp.models.Role;
-import ru.laker.SpingSecutityApp.repositories.RoleRepository;
+import ru.laker.SpringSecurityApp.models.Role;
+import ru.laker.SpringSecurityApp.repositories.RoleRepository;
 
 import java.util.List;
 

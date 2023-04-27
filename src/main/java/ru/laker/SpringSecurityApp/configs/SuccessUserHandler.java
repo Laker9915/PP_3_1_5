@@ -1,4 +1,4 @@
-package ru.laker.SpingSecutityApp.configs;
+package ru.laker.SpringSecurityApp.configs;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;

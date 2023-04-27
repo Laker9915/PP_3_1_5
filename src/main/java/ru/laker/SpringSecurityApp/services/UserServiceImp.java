@@ -1,12 +1,12 @@
-package ru.laker.SpingSecutityApp.services;
+package ru.laker.SpringSecurityApp.services;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.laker.SpingSecutityApp.models.User;
-import ru.laker.SpingSecutityApp.repositories.UserRepository;
+import ru.laker.SpringSecurityApp.models.User;
+import ru.laker.SpringSecurityApp.repositories.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,8 +43,10 @@ public class UserServiceImp implements UserService {
     @Transactional
     @Override
     public void save(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        if (findByEmail(user.getUsername()) == null) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+        } else throw new RuntimeException("Пользователь уже существует");
     }
 
     @Transactional

@@ -1,4 +1,4 @@
-package ru.laker.SpingSecutityApp.models;
+package ru.laker.SpringSecurityApp.models;
 
 import org.springframework.security.core.GrantedAuthority;
 
@@ -15,11 +15,11 @@ public class Role implements GrantedAuthority {
 
     private String name;
 
-    public Role(String name) {
-        this.name = name;
+    public Role() {
     }
 
-    public Role() {
+    public Role(String name) {
+        this.name = name;
     }
 
 
@@ -44,6 +44,10 @@ public class Role implements GrantedAuthority {
         this.name = name;
     }
 
+    public String getNameWithoutPrefix() {
+        return this.name.replace("ROLE_", "");
+    }
+
     @Override
     public String toString() {
         return "Role{" +
@@ -63,9 +67,5 @@ public class Role implements GrantedAuthority {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
-    }
-
-    public String getNameWithoutPrefix() {
-        return this.name.replace("ROLE_", "");
     }
 }

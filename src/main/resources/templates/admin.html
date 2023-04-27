@@ -28,7 +28,7 @@
         <!--            Левая панель-->
         <div class="col-2  p-0" style="height: 93vh">
             <nav class="nav flex-column pt-3">
-                <a class="nav-link active btn btn-primary" style="text-align: left" href="#">Admin</a>
+                <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link active btn btn-primary" style="text-align: left" href="#">Admin</a>
                 <a sec:authorize="hasRole('ROLE_USER')" class="nav-link btn"
                    style="text-align: left; background-color: white" href="/user">User</a>
             </nav>
@@ -92,6 +92,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="email">Email</label>
+                                        <div class="font-weight-normal text-danger" id="error-message"></div>
                                         <input type="email" class="form-control" id="email" name="email" required>
                                     </div>
                                     <div class="form-group">

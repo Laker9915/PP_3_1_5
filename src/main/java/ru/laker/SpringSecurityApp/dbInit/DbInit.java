@@ -1,13 +1,13 @@
-package ru.laker.SpingSecutityApp.dbInit;
+package ru.laker.SpringSecurityApp.dbInit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import ru.laker.SpingSecutityApp.models.Role;
-import ru.laker.SpingSecutityApp.models.User;
-import ru.laker.SpingSecutityApp.services.RoleService;
-import ru.laker.SpingSecutityApp.services.UserService;
+import ru.laker.SpringSecurityApp.models.Role;
+import ru.laker.SpringSecurityApp.models.User;
+import ru.laker.SpringSecurityApp.services.RoleService;
+import ru.laker.SpringSecurityApp.services.UserService;
 
 import java.util.HashSet;
 import java.util.Set;
