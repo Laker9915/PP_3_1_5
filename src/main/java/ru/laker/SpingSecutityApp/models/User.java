@@ -41,9 +41,7 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "roleid"))
     private Set<Role> roles;
 
-    public User() {
-
-    }
+    public User() {}
 
     public User(String name, String surname, int age, String username, String password) {
         this.name = name;
@@ -109,13 +107,6 @@ public class User implements UserDetails {
         this.roles = roles;
     }
 
-    public String rolesToString() {
-        String result = roles.stream()
-                .map(Role::getName)
-                .collect(Collectors.joining(", "));
-        return result.replace("ROLE_", "");
-    }
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -143,6 +134,13 @@ public class User implements UserDetails {
             grantedAuthorities.add(new SimpleGrantedAuthority(role.getAuthority()));
         }
         return grantedAuthorities;
+    }
+
+    public String rolesToString() {
+        String result = roles.stream()
+                .map(Role::getName)
+                .collect(Collectors.joining(", "));
+        return result.replace("ROLE_", "");
     }
 
     @Override

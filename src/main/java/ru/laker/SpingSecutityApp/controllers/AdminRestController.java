@@ -10,30 +10,34 @@ import ru.laker.SpingSecutityApp.services.UserService;
 import java.security.Principal;
 import java.util.List;
 
-@org.springframework.web.bind.annotation.RestController
+@RestController
 @RequestMapping("/api")
-public class RestController {
+public class AdminRestController {
     private final UserService userService;
 
     @Autowired
-    public RestController(UserService userService) {
+    public AdminRestController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping("/users")
-    public List<User> listUser() {
+    public List<User> getListUser() {
         return userService.findAll();
     }
 
     @GetMapping("users/{id}")
-    public User oneUser(@PathVariable("id") int id) {
+    public User getOneUser(@PathVariable("id") int id) {
         return userService.findOne(id);
     }
 
     @PostMapping("/users")
-    public ResponseEntity<HttpStatus> addUser(@RequestBody User user) {
-        userService.save(user);
-        return ResponseEntity.ok(HttpStatus.OK);
+    public ResponseEntity<String> addUser(@RequestBody User user) {
+        try {
+            userService.save(user);
+            return ResponseEntity.ok("ok");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PutMapping("/users")

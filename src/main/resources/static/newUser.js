@@ -1,5 +1,10 @@
 const form_new = document.forms["formForCreatingNewUser"];
 const roles_new = document.querySelector('#roles').selectedOptions;
+function handleErrors(error) {
+    console.error(error);
+    const errorMessage = document.getElementById('error-message');
+    errorMessage.textContent = 'Пользователь с таким email\'ом уже существует'
+}
 form_new.addEventListener("submit", ev => {
     ev.preventDefault();
     let listOfRole = [];
@@ -23,10 +28,14 @@ form_new.addEventListener("submit", ev => {
             password: form_new.password.value,
             roles: listOfRole
         })
-    }).then(() => {
-        form_new.reset();
-        findAll();
-        $('#nav-home-tab').click();
-    });
-})
+    }).then(response => {
+        if (response.ok) {
+            form_new.reset();
+            findAll();
+            $('#nav-home-tab').click();
+        } else {
+            handleErrors(response.statusText)
+        }
+
+})})
 

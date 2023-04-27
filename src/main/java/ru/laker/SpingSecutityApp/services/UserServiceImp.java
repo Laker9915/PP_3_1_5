@@ -43,8 +43,10 @@ public class UserServiceImp implements UserService {
     @Transactional
     @Override
     public void save(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        if (findByEmail(user.getUsername()) == null) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(user);
+        } else throw new RuntimeException("Пользователь уже существует");
     }
 
     @Transactional
