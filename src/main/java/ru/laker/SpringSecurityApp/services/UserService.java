@@ -1,7 +1,7 @@
-package ru.laker.SpingSecutityApp.services;
+package ru.laker.SpringSecurityApp.services;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
-import ru.laker.SpingSecutityApp.models.User;
+import ru.laker.SpringSecurityApp.models.User;
 
 import java.util.List;
 

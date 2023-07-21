@@ -1,4 +1,4 @@
-package ru.laker.SpingSecutityApp;
+package ru.laker.SpringSecurityApp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

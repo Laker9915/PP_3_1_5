@@ -1,11 +1,11 @@
-package ru.laker.SpingSecutityApp.controllers;
+package ru.laker.SpringSecurityApp.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.laker.SpingSecutityApp.models.User;
-import ru.laker.SpingSecutityApp.services.UserService;
+import ru.laker.SpringSecurityApp.models.User;
+import ru.laker.SpringSecurityApp.services.UserService;
 
 import java.security.Principal;
 import java.util.List;

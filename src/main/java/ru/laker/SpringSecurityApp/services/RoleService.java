@@ -1,6 +1,6 @@
-package ru.laker.SpingSecutityApp.services;
+package ru.laker.SpringSecurityApp.services;
 
-import ru.laker.SpingSecutityApp.models.Role;
+import ru.laker.SpringSecurityApp.models.Role;
 
 import java.util.List;
 
