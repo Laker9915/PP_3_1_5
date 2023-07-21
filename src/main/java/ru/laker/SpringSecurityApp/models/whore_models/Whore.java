@@ -22,7 +22,7 @@ public class Whore {
             joinColumns = @JoinColumn(name = "whore_id"),
             inverseJoinColumns = @JoinColumn(name = "address_id")
     )
-    private List<Address> addresses;
+    private List<Address> addressList;
 
     @ManyToMany
     @JoinTable(
@@ -37,10 +37,10 @@ public class Whore {
     public Whore() {
     }
 
-    public Whore(String firstName, String lastName, List<Address> addresses, List<Phone> phones) {
+    public Whore(String firstName, String lastName, List<Address> addressList, List<Phone> phones) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.addresses = addresses;
+        this.addressList = addressList;
         this.phones = phones;
     }
 
@@ -60,12 +60,12 @@ public class Whore {
         this.lastName = lastName;
     }
 
-    public List<Address> addresses() {
-        return addresses;
+    public List<Address> getAddressList() {
+        return addressList;
     }
 
-    public void setAddresses(List<Address> addresses) {
-        this.addresses = addresses;
+    public void setAddressList(List<Address> addresses) {
+        this.addressList = addresses;
     }
 
     public List<Phone> phones() {

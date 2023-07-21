@@ -19,10 +19,10 @@ public class Address {
     @Column(name = "region")
     private String region;
 
-    @ManyToMany(mappedBy = "addresses")
+    @ManyToMany(mappedBy = "addressList")
     private List<Salon> salonList;
 
-    @ManyToMany(mappedBy = "addresses")
+    @ManyToMany(mappedBy = "addressList")
     private List<Whore> whoreList;
 
     // Конструкторы, геттеры и сеттеры

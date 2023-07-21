@@ -14,8 +14,8 @@ public class Phone {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @ManyToMany(mappedBy = "phones")
-    private List<Salon> salonList;
+    @ManyToMany(mappedBy = "phonesList")
+    private List<Salon> phones_list;
 
     @ManyToMany(mappedBy = "phones")
     private List<Whore> whoreList;
@@ -23,9 +23,9 @@ public class Phone {
     public Phone() {
     }
 
-    public Phone(String phoneNumber, List<Salon> salonList, List<Whore> whoreList) {
+    public Phone(String phoneNumber, List<Salon> phones_list, List<Whore> whoreList) {
         this.phoneNumber = phoneNumber;
-        this.salonList = salonList;
+        this.phones_list = phones_list;
         this.whoreList = whoreList;
     }
 
@@ -38,11 +38,11 @@ public class Phone {
     }
 
     public List<Salon> salonList() {
-        return salonList;
+        return phones_list;
     }
 
-    public void setSalonList(List<Salon> salonList) {
-        this.salonList = salonList;
+    public void setPhones_list(List<Salon> salonList) {
+        this.phones_list = salonList;
     }
 
     public List<Whore> whoreList() {

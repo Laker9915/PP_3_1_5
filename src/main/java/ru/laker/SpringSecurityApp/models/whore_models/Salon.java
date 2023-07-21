@@ -20,7 +20,7 @@ public class Salon {
     private List<Address> addressList;
 
     @ManyToMany
-    @JoinTable(name = "salon_phone", joinColumns = @JoinColumn(name = "salon_id"),
+    @JoinTable(name = "phones_list", joinColumns = @JoinColumn(name = "salon_id"),
             inverseJoinColumns = @JoinColumn(name = "phone_id"))
     private List<Phone> phonesList;
 
